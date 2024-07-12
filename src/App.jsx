@@ -3,11 +3,22 @@ import ContactForm from "./components/ContactForm/ContactForm";
 import ContactList from "./components/ContactList/ContactList";
 import ContactListCard from "./ContactListCard.json";
 import SearchBox from "./components/SearchBox/SearchBox";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
-  const [contact, setContact] = useState(ContactListCard);
+  const [contact, setContact] = useState(() => {
+    const savedFeedBack = window.localStorage.getItem("saved-contact");
+    if (savedFeedBack) {
+      return JSON.parse(savedFeedBack);
+    }
+    return ContactListCard;
+  });
+
   const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem("saved-contact", JSON.stringify(contact));
+  }, [contact]);
 
   const visibleContactList = contact.filter((contact) =>
     contact.name.toLowerCase().includes(search.toLowerCase())
