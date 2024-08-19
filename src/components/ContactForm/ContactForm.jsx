@@ -31,7 +31,6 @@ export default function ContactForm({ onAdd }) {
       number: values.phone,
       id: Date.now(),
     });
-    console.log(values);
     actions.resetForm();
   };
   return (
